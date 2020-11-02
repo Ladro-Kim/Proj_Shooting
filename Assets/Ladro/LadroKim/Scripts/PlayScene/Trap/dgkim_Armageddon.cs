@@ -7,10 +7,12 @@ public class dgkim_Armageddon : MonoBehaviour
     Rigidbody myRigidbody;
     public GameObject explosionPrefeb;
 
-    public float speed = 10;
+    public float speed = 3;
 
     Vector3 target;
+    Vector3 targetPoint;
     Vector3 dir;
+
 
     void Start()
     {
@@ -21,6 +23,14 @@ public class dgkim_Armageddon : MonoBehaviour
         transform.LookAt(dir);
         dir *= speed;
         myRigidbody.AddForce(dir.x, dir.y, dir.z, ForceMode.Impulse);
+
+        Ray ray = new Ray(transform.position, dir);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 200f, LayerMask.GetMask("Ground")))
+        {
+            targetPoint = hit.point;
+            Debug.DrawRay(transform.position, dir * 200f, Color.red, 3f);
+        }
     }
 
     void Update()
@@ -31,10 +41,12 @@ public class dgkim_Armageddon : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-
-        Vector3 tempPos = other.gameObject.transform.position;
+        if (targetPoint == null)
+        {
+            targetPoint = other.gameObject.transform.position;
+        }
         GameObject tempPrefeb = GameObject.Instantiate(explosionPrefeb);
-        tempPrefeb.transform.position = tempPos;
+        tempPrefeb.transform.position = targetPoint;
         Destroy(gameObject);
         Destroy(tempPrefeb, 3);
 
