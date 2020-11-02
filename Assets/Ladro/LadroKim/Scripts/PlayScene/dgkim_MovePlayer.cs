@@ -77,4 +77,7 @@ public class dgkim_MovePlayer : MonoBehaviour
         }
     }
 
+
+    // Check for GitHub Contribution.
+
 }
