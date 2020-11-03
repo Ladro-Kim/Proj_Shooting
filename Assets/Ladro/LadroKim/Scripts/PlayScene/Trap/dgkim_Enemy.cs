@@ -7,7 +7,9 @@ using UnityEngine;
 public class dgkim_Enemy : MonoBehaviour
 {
     public GameObject target;
-    float speed = 3f;
+    float speed = 2f;
+
+    bool isKilled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,19 +20,23 @@ public class dgkim_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 dir = target.transform.position - transform.position;
-        dir.Normalize();
+        if (!isKilled)
+        {
+            Vector3 dir = target.transform.position - transform.position;
+            float distance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
 
-        transform.position += dir * speed * Time.deltaTime;
-        transform.LookAt(target.transform.position);
+            transform.position += dir.normalized * distance;
+            transform.LookAt(target.transform.position);
+        }
+
     }
 
-    void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
-        
-        if(other.gameObject.name == "Player")
+        if (collision.collider.gameObject.name == "Player")
         {
-            other.gameObject.SetActive(false);
+            isKilled = true;
         }
     }
+
 }

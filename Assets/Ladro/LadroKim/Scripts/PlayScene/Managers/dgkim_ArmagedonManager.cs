@@ -15,7 +15,7 @@ public class dgkim_ArmagedonManager : MonoBehaviour
     int zRandom;
 
     float currentTime = 0;
-    float spawnTime = 1.5f; 
+    float spawnTime = 1f; 
 
     void Update()
     {

@@ -8,64 +8,106 @@ using UnityEngine;
 public class dgkim_Keeper : MonoBehaviour
 {
     public GameObject player;
-    Rigidbody myRigid;
 
-    float xRandom, zRandom;
+    float speed = 2f;
 
+    float randX, randY, randZ;
     Vector3 destPos;
+    Vector3 dir;
 
-    float speed = 4f;
+    float playerToMonster;
 
-    bool isArrived;
-    bool isFind;
+    float detectDistance = 7;
+
+    bool isArrived = true;
+    public bool isInBossZone = false;
 
     void Start()
     {
-        myRigid = GetComponent<Rigidbody>();
 
-        xRandom = Random.Range(8.7f, 17f);
-        zRandom = Random.Range(126.63f, 137.19f);
-
-        destPos = new Vector3(xRandom, 34.8f, zRandom);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // 플레이어와 상호작용
-        float playerToKeeper = Vector3.Distance(player.transform.position, transform.position);
-        if (playerToKeeper < 3)
+        playerToMonster = (player.transform.position - transform.position).magnitude;
+
+        print(isInBossZone);
+        print(playerToMonster);
+
+        if (playerToMonster < detectDistance)
         {
-            isFind = true;
-            // 플레이어 따라가기
+           if (isInBossZone)
+            {
+                destPos = player.transform.position;
+            }
+           else
+            {
+                destPos = new Vector3(16.4f, 33.8f, 131.37f);
+            }
+            speed = 3.5f;
+
+            dir = destPos - transform.position;
+
+            float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+            transform.position += dir.normalized * moveDistance;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 3f * Time.deltaTime);
         }
         else
         {
-            // 목적지 관련
-            float destToKeeper = Vector3.Distance(destPos, transform.position);
+            speed = 2f;
 
-            if (destToKeeper < 3)
+            if (isArrived)
             {
-                xRandom = Random.Range(8.7f, 17f);
-                zRandom = Random.Range(126.63f, 137.19f);
+                randX = Random.Range(8.22f, 18f);
+                randY = Random.Range(33.8f, 34.2f);
+                randZ = Random.Range(129f, 134f);
 
-                destPos = new Vector3(xRandom, 33f, zRandom);
+                destPos = new Vector3(randX, randY, randZ);
+                dir = destPos - transform.position;
+                isArrived = false;
             }
             else
             {
-                // transform.position += dir * speed * Time.deltaTime;
-                // myRigid.MovePosition(destPos);
-                transform.position = Vector3.MoveTowards(transform.position, destPos, 4f * Time.deltaTime);
-                transform.LookAt(destPos);
-                // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.position, destPos), 0.5f);
-                // print($"{transform.rotation.y} / {Quaternion.LookRotation(destPos).x}");
+                if (dir.magnitude < 2.5f)
+                {
+                    isArrived = true;
+                }
+                else
+                {
+                    dir = destPos - transform.position;
+                    float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+                    transform.position += dir.normalized * moveDistance;
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 3f * Time.deltaTime);
+                }
             }
         }
     }
 
-    void OnCollisionEnter(Collision other)
+    private void OnTriggerStay(Collider other)
     {
-
+        if (other.gameObject.name.Contains("BossZone"))
+        {
+            isInBossZone = true;
+        }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name.Contains("BossZone"))
+        {
+            isInBossZone = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.name.Contains("Player"))
+        {
+            Vector3 tempDir = other.transform.position - transform.position;
+            tempDir.Normalize();
+            other.gameObject.GetComponent<Rigidbody>().AddForce(tempDir * 5f, ForceMode.Impulse);
+        }
+    }
+
 
 }
