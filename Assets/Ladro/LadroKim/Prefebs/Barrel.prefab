@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPrefeb: {fileID: 100008, guid: 54b661f759164cb4cb9424de6a512cf8, type: 3}
   speed: 20
+  audiosource: {fileID: 0}
 --- !u!54 &1811530460217846744
 Rigidbody:
   m_ObjectHideFlags: 0

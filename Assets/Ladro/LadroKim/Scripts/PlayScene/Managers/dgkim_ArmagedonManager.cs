@@ -6,6 +6,7 @@ using UnityEngine;
 public class dgkim_ArmagedonManager : MonoBehaviour
 {
     public GameObject armaPrefeb;
+    Manager manager;
 
     Vector3 destination; // 바닥 착지지점
     Vector3 createPosition; // 상공 생성지점
@@ -15,27 +16,35 @@ public class dgkim_ArmagedonManager : MonoBehaviour
     int zRandom;
 
     float currentTime = 0;
-    float spawnTime = 1f; 
+    float spawnTime = 3f;
+
+    private void Start()
+    {
+        manager = GameObject.Find("@Manager").GetComponent<Manager>();
+    }
 
     void Update()
     {
-        currentTime += Time.deltaTime;
-
-        if (currentTime > spawnTime)
+        if (manager.playerState == dgkim_Define.State.Arrive)
         {
-            xRandom = Random.Range(-47, 15);
-            zRandom = Random.Range(55, 113);
+            currentTime += Time.deltaTime;
 
-            destination = new Vector3(xRandom, 0, zRandom);
+            if (currentTime > spawnTime)
+            {
+                xRandom = Random.Range(-47, 15);
+                zRandom = Random.Range(55, 113);
 
-            createPosition = destination + new Vector3(60, 100, 0);
+                destination = new Vector3(xRandom, 0, zRandom);
 
-            GameObject arma = Instantiate(armaPrefeb);
-            arma.transform.position = createPosition;
+                createPosition = destination + new Vector3(60, 100, 0);
 
-            arma.GetComponent<dgkim_Armageddon>().SetDestination(destination);
+                GameObject arma = Instantiate(armaPrefeb);
+                arma.transform.position = createPosition;
 
-            currentTime = 0;
+                arma.GetComponent<dgkim_Armageddon>().SetDestination(destination);
+
+                currentTime = 0;
+            }
         }
     }
 

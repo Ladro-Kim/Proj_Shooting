@@ -8,8 +8,11 @@ using UnityEngine;
 public class dgkim_Keeper : MonoBehaviour
 {
     public GameObject player;
+    Animator animator;
+    Rigidbody myRigid;
 
-    float speed = 2f;
+    float moveDistance;
+    public float speed = 1;
 
     float randX, randY, randZ;
     Vector3 destPos;
@@ -17,44 +20,53 @@ public class dgkim_Keeper : MonoBehaviour
 
     float playerToMonster;
 
-    float detectDistance = 7;
+    float detectDistance = 3;
 
     bool isArrived = true;
     public bool isInBossZone = false;
 
+    float tempTime = 0;
+
+    public float pushPower = 6000f;
+
     void Start()
     {
+        myRigid = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
 
     }
 
-    void Update()
+    void LateUpdate()
     {
         playerToMonster = (player.transform.position - transform.position).magnitude;
-
-        print(isInBossZone);
-        print(playerToMonster);
-
-        if (playerToMonster < detectDistance)
+        if (playerToMonster <= detectDistance)
         {
-           if (isInBossZone)
+            animator.SetBool("isClose", true);
+
+            if (isInBossZone)
             {
                 destPos = player.transform.position;
             }
-           else
+            else
             {
                 destPos = new Vector3(16.4f, 33.8f, 131.37f);
             }
-            speed = 3.5f;
+            speed = 1.5f;
 
             dir = destPos - transform.position;
 
-            float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDistance;
+            moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+            myRigid.MovePosition(transform.position + (dir.normalized * moveDistance));
+            // transform.position += dir.normalized * moveDistance;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 3f * Time.deltaTime);
+
+
+
         }
         else
         {
-            speed = 2f;
+            animator.SetBool("isClose", false);
+            speed = 1f;
 
             if (isArrived)
             {
@@ -68,19 +80,28 @@ public class dgkim_Keeper : MonoBehaviour
             }
             else
             {
-                if (dir.magnitude < 2.5f)
+                if (dir.magnitude < 2f)
                 {
                     isArrived = true;
                 }
                 else
                 {
                     dir = destPos - transform.position;
-                    float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-                    transform.position += dir.normalized * moveDistance;
+                    moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+                    myRigid.MovePosition(transform.position + (dir.normalized * moveDistance));
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 3f * Time.deltaTime);
+                    tempTime = 0;
+
                 }
             }
         }
+        animator.SetFloat("Movement", speed);
+
+    }
+
+    private void FixedUpdate()
+    {
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -107,6 +128,14 @@ public class dgkim_Keeper : MonoBehaviour
             tempDir.Normalize();
             other.gameObject.GetComponent<Rigidbody>().AddForce(tempDir * 5f, ForceMode.Impulse);
         }
+    }
+
+    public void PushPlaer()
+    {
+        print("PushPlayer");
+        Rigidbody playerRigid = player.GetComponent<Rigidbody>();
+        playerRigid.AddForce(transform.forward * pushPower, ForceMode.Impulse);
+
     }
 
 

@@ -6,10 +6,12 @@ public class dgkim_Trap3Trigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "Trap3")
+        print(other.gameObject.name);
+        if(other.gameObject.name.Contains("Trap3"))
         {
             other.gameObject.GetComponent<dgkim_Trap3>().index = 1;
-            Destroy(gameObject, 1f);
+            gameObject.SetActive(false);
+            Manager.gameStage = dgkim_Define.Stage.Stage4;
         }
     }
 }

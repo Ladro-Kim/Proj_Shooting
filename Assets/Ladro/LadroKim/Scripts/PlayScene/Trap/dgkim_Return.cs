@@ -51,7 +51,7 @@ public class dgkim_Return : MonoBehaviour
     {
         if (index == 1)
         {
-            other.transform.position = startPoint.transform.position;
+            Manager.manager.playerState = dgkim_Define.State.Dead;
         }
     }
 }

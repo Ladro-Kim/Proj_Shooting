@@ -29,7 +29,7 @@ public class dgkim_Trap1 : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.name.Contains("Player"))
         {
             isPlayer = true;
         }

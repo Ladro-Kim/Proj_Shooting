@@ -8,7 +8,7 @@ public class dgkim_Trap2 : MonoBehaviour
     public GameObject end;
 
     public float moveSpeed = 0.01f;
-    public float pushPower = 15.0f;
+    public float pushPower = 2000.0f;
 
     Vector3 startPoint;
     Vector3 endPoint;
