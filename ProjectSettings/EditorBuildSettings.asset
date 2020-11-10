@@ -5,18 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-<<<<<<< HEAD
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/SBH/Scene/TEST.unity
     guid: 69fbe9c0b1bfdfc44a72ad1117ed9a3c
-=======
-  - enabled: 1
-    path: Assets/Ladro/LadroKim/Scene/Start.unity
-    guid: 5c40c934dcaee3a469029cb35eb78fb1
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
   - enabled: 1
     path: Assets/Ladro/LadroKim/Scene/Play.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab

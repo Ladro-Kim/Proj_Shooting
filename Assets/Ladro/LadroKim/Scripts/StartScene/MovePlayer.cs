@@ -5,7 +5,6 @@ using UnityEngine;
 public class MovePlayer : MonoBehaviour
 {
     public float _keySpeed = 5;
-<<<<<<< HEAD
     Rigidbody myRigid;
 
     float jumpPower = 3;
@@ -15,22 +14,12 @@ public class MovePlayer : MonoBehaviour
     void Start()
     {
         myRigid = GetComponent<Rigidbody>();
-=======
-
-
-    void Start()
-    {
-
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
     }
 
     void Update()
     {
         InputKey();
-<<<<<<< HEAD
         Jump();
-=======
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
     }
 
     public void InputKey()
@@ -44,7 +33,6 @@ public class MovePlayer : MonoBehaviour
         transform.position += dir * _keySpeed * Time.deltaTime;
     }
 
-<<<<<<< HEAD
     public void Jump()
     {
         if (isGround)
@@ -70,8 +58,6 @@ public class MovePlayer : MonoBehaviour
 
 
 
-=======
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
 
 
 

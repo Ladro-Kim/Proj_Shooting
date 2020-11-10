@@ -11,11 +11,8 @@ public enum Stage
 {
     PressAnyKey,
     PressDirectionKey,
-<<<<<<< HEAD
     PressShiftKey,
     PressJumpKey,
-=======
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
     StartButton
 }
 
@@ -29,11 +26,7 @@ public class StartScene : MonoBehaviour
 
     Stage _stage = Stage.PressAnyKey;
 
-<<<<<<< HEAD
     bool isW, isS, isA, isD, isShift;
-=======
-    bool isW, isS, isA, isD;
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
 
     // Start is called before the first frame update
     void Start()
@@ -48,15 +41,9 @@ public class StartScene : MonoBehaviour
         switch (_stage)
         {
             case Stage.PressAnyKey:
-<<<<<<< HEAD
                 _constructionText.text = "Press any key";
                 if (Input.anyKey)
                 {
-=======
-                if (Input.anyKey)
-                {
-                    _constructionText.text = "Press A, S, D, F to move your character.";
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
                     _stage = Stage.PressDirectionKey;
                 }
                 else
@@ -65,7 +52,6 @@ public class StartScene : MonoBehaviour
                 }
                 break;
             case Stage.PressDirectionKey:
-<<<<<<< HEAD
                 _constructionText.text = "Press A, S, D, F to move your character.";
                 CheckKeyInput();
                 if (isW && isS && isA && isD)
@@ -102,9 +88,6 @@ public class StartScene : MonoBehaviour
                 {
                     _stage = Stage.StartButton;
                 }
-=======
-                CheckKeyInput();
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
                 break;
             case Stage.StartButton:
                 _constructionText.text = "Input your ID and press start button";
@@ -138,15 +121,6 @@ public class StartScene : MonoBehaviour
         {
             isD = true;
         }
-<<<<<<< HEAD
-=======
-
-        if (isW && isS && isA && isD)
-        {
-            _stage = Stage.StartButton;
-        }
-
->>>>>>> d4f3da60a3bc4b79bdd148eb6bd62b7158e4c4c1
     }
 
 
